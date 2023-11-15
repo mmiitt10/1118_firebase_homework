@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase_version9_RealtimeDB(G'sACADEMY初学者用サンプル)</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header>
+        <!-- ロゴを後で入れる -->
+        <h1>Digital CRO for Agents</h1>
+    </header>
+
+    <main>
+        <h2>顧客情報を登録してください</h2>
+
+        <form id="clInfo">
+            <input type="text" id="salesName" placeholder="営業担当者名を入力してください" required>
+            <input type="text" id="clName" placeholder="顧客企業名を入力してください" required>
+            <input type="text" id="clAddress" placeholder="顧客企業の住所を入力してください" required>
+            <input type="text" id="clPhoneNumer" placeholder="顧客企業の電話番号を入力してください" required>
+            <input type="text" id="clRepresentative" placeholder="顧客企業の代表者名を入力してください" required>
+            <select id="clInsurance" required>
+                <option value="">保険商品を選択してください</option>
+                <option value="fire">火災保険</option>
+                <option value="earthquake">地震保険</option>
+                <option value="liability">賠償責任保険</option>
+                <option value="pl_insurance">PL保険</option>
+                <option value="facility_liability">施設賠償責任保険</option>
+                <option value="directors_liability">役員賠償責任保険</option>
+                <option value="professional_liability">業務過誤賠償責任保険</option>
+                <option value="cyber">サイバー保険</option>
+                <option value="workers_compensation">労災保険</option>
+                <option value="accident">傷害保険</option>
+                <option value="gltd">GLTD</option>
+            </select>
+            <button id="register" type="submit">登録する</button>
+        </form>
+
+    </main>
+    <!-- コンテンツ表示画面 -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+        import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+            from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+
+            // APIキーを再度入力する
+        };
+        // 以下、firebaseを使用するためのおまじない
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app); //RealtimeDBに接続
+        const dbRef = ref(db, "chat"); //RealtimeDB内の格納フォルダを"chat"と定義している
+                // フォーム送信をハンドリングします。
+
+        document.getElementById('clInfo').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // フォームのデフォルトの送信を防止
+        
+        let customerData = {
+            salesName: document.getElementById('salesName').value,
+            clName: document.getElementById('clName').value,
+            clAddress: document.getElementById('clAddress').value,
+            clPhoneNumer: document.getElementById('clPhoneNumer').value,
+            clRepresentative: document.getElementById('clRepresentative').value,
+            clInsurance: document.getElementById('clInsurance').value,
+        };
+        
+        // Realtime Databaseにデータを追加
+        push(ref(db, 'customers'), customerData).then(() => {
+            alert('Data added successfully');
+            // ここに送信成功時の処理を記述
+        }).catch((error) => {
+            alert('Error adding document:', error);
+        });
+    });
+    </script>
+</body>
+
+</html>
