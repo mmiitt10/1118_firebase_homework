@@ -2,16 +2,163 @@
   box-sizing: border-box;
 }
 
-h1 {
+header {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e7e7e7;
+  padding: 10px 0;
+  display: flex; /* Add flex display */
+  align-items: center; /* Align items vertically */
+  justify-content: space-between; /* Space out logo and h1 */
+}
+
+/* Logo styles */
+header a img {
+  height: auto; /* Set height to auto */
+  max-height: 50px; /* New line - maximum height for the logo */
+  width: auto; /* Keep width auto */
+}
+
+/* Title styles */
+header h1 {
+  color: #333;
+  font-family: 'Arial', sans-serif;
+  font-size: 1.25rem; /* Adjusted font size */
+  text-align: left; /* Align text to the left */
+  margin: 0 30px; /* Adjusted margin */
+  flex-grow: 1; /* Allows h1 to grow */
+}
+
+h2 {
   text-align: center;
-  margin: 50px 0;
-  font-size: 20px;
+  margin: 30px 0;
+  font-size: 1.5rem; /* フォントサイズをremに変更 */
 }
 
-input,select {
-  width: 500px;
-  padding: 2px;
+input,
+select {
+  width: 100%; /* フル幅にする */
+  padding: 10px; /* 余白を増やして入力しやすくする */
+  margin: 10px 0; /* 上下のマージンを適切に設定 */
   display: block;
-  margin: 5px;
+  box-sizing: border-box; /* ボックスサイズの計算方法をborder-boxに */
 }
 
+button {
+  display: block; /* ブロックレベル要素として扱う */
+  margin: 0 auto; /* 上下のマージンは0にし、左右のマージンは自動で設定 */
+  padding: 10px 20px; /* ボタンの内側の余白を設定 */
+  /* その他のスタイル */
+}
+
+/* テーブルの基本スタイル */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 0.9em;
+}
+
+th, td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #333;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: #f9f9f9;
+}
+
+/* ボタンのスタイリング */
+button {
+  background-color: #4CAF50; /* 緑色 */
+  color: white;
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* メモのテキストエリア */
+textarea {
+  width: calc(100% - 24px);
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  resize: vertical; /* ユーザーが縦にサイズ変更可能にする */
+}
+
+/* フォームエレメント */
+#noteForm {
+  margin-top: 20px;
+}
+
+#customerSelect {
+  padding: 8px;
+  margin-right: 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+
+/* スマートフォンサイズ（デフォルトスタイル） */
+@media (max-width: 768px) {
+  h1 {
+    margin: 20px 0; /* スマートフォンでは余白を減らす */
+    font-size: 1.5rem; /* フォントサイズを小さくする */
+  }
+  h2 {
+    margin: 10px 0; /* スマートフォンでは余白を減らす */
+    font-size: 1rem; /* フォントサイズを小さくする */
+  }
+  
+  /* スマートフォン用の追加スタイルがあればここに */
+}
+
+/* タブレットサイズ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  header {
+    padding: 20px 0; /* Larger padding for larger screens */
+  }
+  h1 {
+    font-size: 1.75rem; /* タブレットでは中間のフォントサイズ */
+  }
+  h2 {
+    font-size: 1.25rem; /* タブレットでは中間のフォントサイズ */
+  }
+
+  /* タブレット用の追加スタイルがあればここに */
+}
+
+/* デスクトップサイズ */
+@media (min-width: 1025px) {
+
+  header {
+    padding: 20px 0; /* Larger padding for larger screens */
+  }
+  h1 {
+    font-size: 2rem; /* デスクトップではもとのフォントサイズ */
+  }
+  h2 {
+    font-size: 1.5rem; /* デスクトップではもとのフォントサイズ */
+  }
+
+  input,
+  select {
+    width: 50%; /* デスクトップでは幅を半分に */
+    margin: 10px auto; /* 中央揃えのためのマージン */
+  }
+
+  /* デスクトップ用の追加スタイルがあればここに */
+}

@@ -12,7 +12,7 @@
 
 <body>
     <header>
-        <!-- ロゴを後で入れる -->
+        <a href=""><img src="logo.png" alt="ロゴの名前"></a>
         <h1>Digital CRO for Agents</h1>
     </header>
 
@@ -45,44 +45,47 @@
     </main>
     <!-- コンテンツ表示画面 -->
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script type="module">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
-        import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
-            from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+        import {
+            getDatabase, ref, push
+        } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+
         // Your web app's Firebase configuration
         const firebaseConfig = {
-
-            // APIキーを再度入力する
+hogehoge
         };
+
         // 以下、firebaseを使用するためのおまじない
+        // Firebaseを初期化
         const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app); //RealtimeDBに接続
-        const dbRef = ref(db, "chat"); //RealtimeDB内の格納フォルダを"chat"と定義している
+        const db = getDatabase(app);
                 // フォーム送信をハンドリングします。
 
-        document.getElementById('clInfo').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // フォームのデフォルトの送信を防止
-        
-        let customerData = {
-            salesName: document.getElementById('salesName').value,
-            clName: document.getElementById('clName').value,
-            clAddress: document.getElementById('clAddress').value,
-            clPhoneNumer: document.getElementById('clPhoneNumer').value,
-            clRepresentative: document.getElementById('clRepresentative').value,
-            clInsurance: document.getElementById('clInsurance').value,
-        };
-        
-        // Realtime Databaseにデータを追加
-        push(ref(db, 'customers'), customerData).then(() => {
-            alert('Data added successfully');
-            // ここに送信成功時の処理を記述
-        }).catch((error) => {
-            alert('Error adding document:', error);
+                // jQueryを使ってフォーム送信イベントをハンドリング
+        $('#clInfo').submit(function(event) {
+            event.preventDefault(); // フォームのデフォルトの送信を防止
+
+            let customerData = {
+            salesName: $('#salesName').val(),
+            clName: $('#clName').val(),
+            clAddress: $('#clAddress').val(),
+            clPhoneNumer: $('#clPhoneNumer').val(),
+            clRepresentative: $('#clRepresentative').val(),
+            clInsurance: $('#clInsurance').val(),
+            };
+
+            // Realtime Databaseにデータを追加
+            push(ref(db, 'customers'), customerData).then(() => {
+            alert('正しく登録されました');
+            // フォームの入力フィールドをリセット
+            $('#clInfo').find('input[type="text"], select').val('');
+            }).catch((error) => {
+            alert("登録に失敗しました：" + error.message);
+            });
         });
-    });
     </script>
 </body>
 

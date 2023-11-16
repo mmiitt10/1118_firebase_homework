@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>エージェントマイページ</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <a href=""><img src="logo.png" alt="ロゴの名前"></a>
+        <h1>Digital CRO for Agents</h1>
+    </header>
+
+    <main>
+        <h2>登録された顧客情報</h2>
+        
+        <!-- 顧客情報を表示するテーブル -->
+        <table id="customersTable">
+            <thead>
+                <tr>
+                    <th>営業担当者名</th>
+                    <th>顧客企業名</th>
+                    <th>住所</th>
+                    <th>電話番号</th>
+                    <th>代表者名</th>
+                    <th>保険商品</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- ここに Firebase から取得した顧客情報が挿入される -->
+            </tbody>
+        </table>
+
+    </main>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+        
+        // Firebase の設定を追加
+        const firebaseConfig = {
+hogehoge
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // 顧客情報を取得してテーブルに表示
+        const customersRef = ref(db, 'customers');
+        onValue(customersRef, (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.getElementById('customersTable').getElementsByTagName('tbody')[0];
+            tbody.innerHTML = ''; // テーブルをクリア
+            for (const key in data) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${data[key].salesName}</td>
+                    <td>${data[key].clName}</td>
+                    <td>${data[key].clAddress}</td>
+                    <td>${data[key].clPhoneNumer}</td>
+                    <td>${data[key].clRepresentative}</td>
+                    <td>${data[key].clInsurance}</td>
+                    <td>
+                        <button onclick="addNote('${key}')">メモを記載する</button>
+                        <button onclick="deleteCustomer('${key}')">削除する</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            }
+        });
+
+        // メモを追加する関数（未実装）
+        function addNote(key) {
+            // Firebase にメモを追加する処理をここに実装
+        }
+
+        // 顧客情報を削除する関数
+        function deleteCustomer(key) {
+            if (confirm('本当に削除しますか？')) {
+                remove(ref(db, 'customers/' + key));
+            }
+        }
+    </script>
+</body>
+</html>
