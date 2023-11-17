@@ -34,22 +34,39 @@
                 <!-- ここに Firebase から取得した顧客情報が挿入される -->
             </tbody>
         </table>
-
+        <div id="detailsModal" style="display:none;">
+            <div id="modalContent">
+                <h3>顧客の詳細</h3>
+                <p id="modalSalesName"><strong>営業担当者名:</strong> <span></span></p>
+                <p id="modalClName"><strong>顧客企業名:</strong> <span></span></p>
+                <p id="modalClAddress"><strong>住所:</strong> <span></span></p>
+                <p id="modalClPhoneNumber"><strong>電話番号:</strong> <span></span></p>
+                <p id="modalClRepresentative"><strong>代表者名:</strong> <span></span></p>
+                <p id="modalClInsurance"><strong>保険商品:</strong> <span></span></p>
+                <h4>備考</h4>
+                <textarea id="modalNotes"></textarea>
+                <button onclick="addNote()">メモを記載する</button>
+                <button onclick="deleteCustomer(currentKey)">削除する</button>
+                <button onclick="closeModal()">閉じる</button>
+            </div>
+        </div>
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
-        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
-        
-        // Firebase の設定を追加
+        import { getDatabase, ref, onValue, remove, update } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+    
+        // Firebaseの設定
         const firebaseConfig = {
 hogehoge
         };
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
-        // 顧客情報を取得してテーブルに表示
+    
+        let currentKey = null; // 現在選択されている顧客のキーを保持するためのグローバル変数
+    
+        // 顧客情報を取得してテーブルに表示する
         const customersRef = ref(db, 'customers');
         onValue(customersRef, (snapshot) => {
             const data = snapshot.val();
@@ -65,25 +82,65 @@ hogehoge
                     <td>${data[key].clRepresentative}</td>
                     <td>${data[key].clInsurance}</td>
                     <td>
-                        <button onclick="addNote('${key}')">メモを記載する</button>
-                        <button onclick="deleteCustomer('${key}')">削除する</button>
+                        <button class="details-button">詳細</button>
                     </td>
                 `;
                 tbody.appendChild(tr);
+    
+                // 詳細ボタンにイベントリスナーを追加
+                const detailsButton = tr.querySelector('.details-button');
+                detailsButton.addEventListener('click', () => {
+                    showDetails(key);
+                });
             }
         });
-
-        // メモを追加する関数（未実装）
-        function addNote(key) {
-            // Firebase にメモを追加する処理をここに実装
+    
+        // 詳細を表示する関数
+        function showDetails(key) {
+            currentKey = key; // currentKeyを設定
+            const customerRef = ref(db, 'customers/' + key);
+            onValue(customerRef, (snapshot) => {
+                const customer = snapshot.val();
+                // モーダルにデータを表示
+                // ... (省略されたモーダルの設定コード) ...
+                // モーダルを表示
+                document.getElementById('detailsModal').style.display = 'block';
+            });
         }
-
-        // 顧客情報を削除する関数
-        function deleteCustomer(key) {
+    
+        // モーダルを閉じる関数
+        function closeModal() {
+            document.getElementById('detailsModal').style.display = 'none';
+        }
+    
+        // メモをFirebaseに追加する関数
+        function addNote() {
+            const notesValue = document.getElementById('modalNotes').value;
+            // FirebaseでcurrentKeyに対応するメモを更新
+            const updates = {};
+            updates['/customers/' + currentKey + '/notes'] = notesValue;
+            update(ref(db), updates);
+        }
+    
+        // 顧客情報をFirebaseから削除する関数
+        function deleteCustomer() {
             if (confirm('本当に削除しますか？')) {
-                remove(ref(db, 'customers/' + key));
+                remove(ref(db, 'customers/' + currentKey)).then(() => {
+                    // Firebaseから削除が成功したら、UIから行を削除
+                    document.querySelector(`button[onclick="showDetails('${currentKey}')"]`).closest('tr').remove();
+                    // モーダルを閉じる
+                    closeModal();
+                }).catch(error => {
+                    // エラーが発生した場合の処理
+                    console.error("Error removing document: ", error);
+                    alert('削除に失敗しました。');
+                });
             }
         }
+    
+        // ページ読み込み時に削除ボタンにイベントリスナーを設定
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('delete-button').addEventListener('click', deleteCustomer);
+        });
     </script>
-</body>
-</html>
+    

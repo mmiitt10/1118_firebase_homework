@@ -24,7 +24,7 @@
             <input type="text" id="clAddress" placeholder="顧客企業の住所を入力してください" required>
             <input type="text" id="clPhoneNumer" placeholder="顧客企業の電話番号を入力してください" required>
             <input type="text" id="clRepresentative" placeholder="顧客企業の代表者名を入力してください" required>
-            <select id="clInsurance" required>
+            <select id="clInsurance" required multiple>
                 <option value="">保険商品を選択してください</option>
                 <option value="fire">火災保険</option>
                 <option value="earthquake">地震保険</option>
@@ -56,9 +56,6 @@
         const firebaseConfig = {
 hogehoge
         };
-
-        // 以下、firebaseを使用するためのおまじない
-        // Firebaseを初期化
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
                 // フォーム送信をハンドリングします。
