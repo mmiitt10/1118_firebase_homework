@@ -45,9 +45,14 @@ select {
 
 button {
   display: block; /* ブロックレベル要素として扱う */
-  margin: 0 auto; /* 上下のマージンは0にし、左右のマージンは自動で設定 */
-  padding: 10px 20px; /* ボタンの内側の余白を設定 */
-  /* その他のスタイル */
+  margin: 10px auto; 
+  padding: 10px 20px; 
+  width: 30%;
+  background-color: #4CAF50; /* 緑色 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 /* テーブルの基本スタイル */
@@ -71,17 +76,6 @@ th {
 
 tbody tr:nth-child(odd) {
   background-color: #f9f9f9;
-}
-
-/* ボタンのスタイリング */
-button {
-  background-color: #4CAF50; /* 緑色 */
-  color: white;
-  padding: 5px 10px;
-  margin: 2px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
 }
 
 button:hover {
@@ -122,6 +116,14 @@ textarea {
     margin: 10px 0; /* スマートフォンでは余白を減らす */
     font-size: 1rem; /* フォントサイズを小さくする */
   }
+  button {
+    font-size: 0.5rem;
+  }
+  input,
+  select {
+    margin: 10px auto; 
+    width: 70%;
+  }
   
   /* スマートフォン用の追加スタイルがあればここに */
 }
@@ -136,6 +138,14 @@ textarea {
   }
   h2 {
     font-size: 1.25rem; /* タブレットでは中間のフォントサイズ */
+  }
+  button {
+    font-size: 1rem;
+  }
+  input,
+  select {
+    width: 60%; 
+    margin: 10px auto; 
   }
 
   /* タブレット用の追加スタイルがあればここに */
